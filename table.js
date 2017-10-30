@@ -1,59 +1,39 @@
-<!DOCTYPE html>
-<html>
+console.log("In this script");
 
-	<head>
-		<meta charset="UTF-8"/>
-		<title> Assignment 6 - Manoj Gopale </title>
-		<link href="./style/style.css" rel="stylesheet" type="text/css">
-	</head>
+var table = d3.select('body').append('table').attr("id", "newTable");
+var thead = table.append("thead");
+var tbody = table.append("tbody");
 
-	<body>
-<!--		<script src="https://cscheid.net/courses/fal17/csc544/lecture-extras/lecture3/data.js"></script> -->
-		<div id="scatterplot_1">
-		</div>
-		<table>
-			<thead>
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-				</tr>
-				<tr>
-					<td> John </td>
-					<td> Doe </td>
-				</tr>
-				<tr>
-					<td> Jane </td>
-					<td> Doe </td>
-				</tr>
-			</thead>
-		</table>
+console.log("In this script");
 
-		<table>
-			<thead>
-				<tr>
-					<th> SATM </th>
-					<th> SATM </th>
-					<th> ACT </th>
-					<th> GPA </th>
-				</tr>
-				<tr>
-					<td> 500 </td>
-					<td> 498 </td>
-					<td> 34 </td>
-					<td> 3.5 </td>
-				</tr>
-			</thead>
-		</table>
-		<script src="https://d3js.org/d3.v4.min.js"></script>
-		<script src="https://cscheid.net/courses/fal17/csc544/assignment_2/scores.js"></script>
-		<script src="https://cscheid.net/courses/fal17/csc544/assignment_3/ukDriverFatalities.js"></script>
-		<script src="https://d3js.org/d3-axis.v1.min.js"></script>
-		<script src="https://d3js.org/d3-color.v1.min.js"></script>
-		<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-		<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-		<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
-		<!-- <script src="./scripts/hw3_trial.js"></script> -->
-		<!-- <script src="./table.js"></script> -->
-		<script src="./table.js"></script>
-	</body>
-</html>
+// Array for header 
+header = Object.keys(scores[0]);
+
+thead.append("tr").selectAll("th")
+		.data(header)
+		.enter()
+		.append("th")
+		.text(function(d) {
+				return d;
+			});
+
+// Create row for each data element
+var rows = tbody.selectAll("tr")
+							.data(scores)
+							.enter()
+							.append("tr");
+
+var cells = rows.selectAll("td")
+								.data(function(row) {
+										// header.map ==> creates a map for all the keys such that each key is the column, and the value
+										// for each key is stored in the value. Creates a data element with 4 objects.
+										return header.map(function(column) {
+												return {coulmn: column, value: row[column]};
+											})
+									})
+								.enter()
+								.append("td")
+								// here the 'd' is the data that we created from each row in the data element.
+								.text(function(d) {
+										return d.value;
+									});
